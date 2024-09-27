@@ -11,7 +11,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import ModalAddProduct from "./nextUI/ModalAddProduct";
+import ModalAddProduct from "./nextui/ModalAddProduct";
 
 const TableProduct = () => {
   const [allBarang, setAllBarang] = useState([]);
