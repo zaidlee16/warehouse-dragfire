@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
 import { supabase } from "../utils/SupaSupplier";
 import { Button, Spinner, useDisclosure } from "@nextui-org/react";
-import ModalAddProduct from "./nextUI/ModalAddSupplier";
 import TablePaginateSupp from "./TablePaginateSupp";
-import ModalAddSupplier from "./nextUI/ModalAddSupplier";
+import ModalAddSupplier from "./nextui/ModalAddSupplier";
 
 const TableSupplier = () => {
   const [allBarang, setAllBarang] = useState([]);
