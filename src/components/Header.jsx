@@ -1,5 +1,5 @@
 import React from "react";
-import DropdownUser from "./nextui/DropDownUser";
+import DropdownUser from "./nextui/DropdownUser";
 
 const Header = () => {
   return (

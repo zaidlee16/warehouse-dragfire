@@ -25,7 +25,7 @@ export const SideBar = () => {
               />
             </svg>
           </button>
-          {/* <h2 className="text-2xl font-bold">Dragfire Shop</h2> */}
+          <h2 className="text-2xl font-bold">Dragfire Shop</h2>
         </div>
       </div>
 
