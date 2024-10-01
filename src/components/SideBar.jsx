@@ -10,7 +10,7 @@ export const SideBar = () => {
 
   return (
     <>
-      <div className="lg:hidden fixed top-0 left-0 p-4 pr-8 z-50 w-full bg-cyan-950 text-white shadow-md">
+      <div className="lg:hidden fixed top-0 left-0 p-4 pr-8 z-50 h-full bg-cyan-950 text-white shadow-md">
         <div className="flex justify-between items-center">
           <button className="p-4 focus:outline-none" onClick={toggleSidebar}>
             <svg
@@ -31,9 +31,9 @@ export const SideBar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`lg:w-1/5 w-64 bg-cyan-950 text-white h-screen fixed top-0 left-0 lg:static lg:translate-x-0 transition-transform transform ${
+        className={`lg:w-1/5 w-64 bg-cyan-950 text-white lg:static fixed top-0 left-0 lg:translate-x-0 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } z-40`}
+        } transition-transform z-40`}
       >
         <div className="logo h-20 shadow-lg flex justify-center items-center">
           <h2 className="flex items-center text-2xl font-bold gap-3">
