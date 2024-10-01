@@ -155,9 +155,9 @@ export default function TablePaginateSupp({ allBarang = [] }) {
                 ) : columnKey === "no_hp" ? (
                   getKeyValue(item, columnKey)
                 ) : columnKey === "address" ? (
-                  getKeyValue(item, columnKey)
+                  truncateText(getKeyValue(item, columnKey), 6)
                 ) : columnKey === "email" ? (
-                  truncateText(getKeyValue(item, columnKey), 30)
+                  getKeyValue(item, columnKey)
                 ) : columnKey === "logo_supplier" ? (
                   <img
                     className=" w-8 "

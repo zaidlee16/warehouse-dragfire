@@ -161,7 +161,7 @@ export default function TablePaginate({ allBarang }) {
                     {getKeyValue(item, columnKey)}
                   </span>
                 ) : columnKey === "description" ? (
-                  truncateText(getKeyValue(item, columnKey), 30)
+                  truncateText(getKeyValue(item, columnKey), 6)
                 ) : columnKey === "img" ? (
                   <img
                     className=" w-8 "
