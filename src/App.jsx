@@ -8,6 +8,8 @@ import DataSupplier from "./components/TableSupplier";
 import DetailSupplier from "./pages/supplier/DetailSupplier";
 import ChangeSupplier from "./pages/supplier/ChangeSupplier";
 import AllProducts from "./pages/AllProducts";
+import Login from "./auth/Login";
+import AuthAdmin from "./auth/AuthAdmin";
 
 const App = () => {
   return (
@@ -18,12 +20,15 @@ const App = () => {
           <Route path="/table" element={<TableProduct />} />
           <Route path="/all-products" element={<AllProducts />} />
           <Route path="/data-supplier" element={<DataSupplier />} />
-
-          <Route path="/detail/:id" element={<DetailProduct />} />
-          <Route path="/edit/:id" element={<ChangeProduct />} />
-
           <Route path="/detail-supplier/:id" element={<DetailSupplier />} />
-          <Route path="/edit-supplier/:id" element={<ChangeSupplier />} />
+          <Route path="/detail/:id" element={<DetailProduct />} />
+
+          <Route element={<AuthAdmin />}>
+            <Route path="/edit/:id" element={<ChangeProduct />} />
+            <Route path="/edit-supplier/:id" element={<ChangeSupplier />} />
+          </Route>
+
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../auth/AuthProvider";
 
 export const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,6 +8,8 @@ export const SideBar = () => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  const { role } = useAuth();
 
   return (
     <>
@@ -31,7 +34,7 @@ export const SideBar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`lg:w-1/5 w-64 bg-cyan-950 text-white lg:static fixed top-0 left-0 lg:translate-x-0 transform ${
+        className={`lg:w-1/5 w-64 bg-cyan-950 dark:bg-cyan-950 text-gray-200 dark:text-gray-200 lg:static fixed top-0 left-0 lg:translate-x-0 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform z-40`}
       >
@@ -73,26 +76,6 @@ export const SideBar = () => {
             </li>
             <li>
               {" "}
-              <LinkSideBar link={"/table"}>
-                {" "}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 32 32"
-                >
-                  {" "}
-                  <path fill="currentColor" d="M8 18h6v2H8zm0 4h10v2H8z" />{" "}
-                  <path
-                    fill="currentColor"
-                    d="M26 4H6a2.002 2.002 0 0 0-2 2v20a2.002 2.002 0 0 0 2 2h20a2.002 2.002 0 0 0 2-2V6a2.002 2.002 0 0 0-2-2Zm-8 2v4h-4V6ZM6 26V6h6v6h8V6h6l.001 20Z"
-                  />{" "}
-                </svg>{" "}
-                Table Product{" "}
-              </LinkSideBar>{" "}
-            </li>{" "}
-            <li>
-              {" "}
               <LinkSideBar link={"/all-products"}>
                 {" "}
                 <svg
@@ -110,6 +93,26 @@ export const SideBar = () => {
                 All Products{" "}
               </LinkSideBar>{" "}
             </li>{" "}
+            <li>
+              {" "}
+              <LinkSideBar link={"/table"}>
+                {" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 32 32"
+                >
+                  {" "}
+                  <path fill="currentColor" d="M8 18h6v2H8zm0 4h10v2H8z" />{" "}
+                  <path
+                    fill="currentColor"
+                    d="M26 4H6a2.002 2.002 0 0 0-2 2v20a2.002 2.002 0 0 0 2 2h20a2.002 2.002 0 0 0 2-2V6a2.002 2.002 0 0 0-2-2Zm-8 2v4h-4V6ZM6 26V6h6v6h8V6h6l.001 20Z"
+                  />{" "}
+                </svg>{" "}
+                Table Product{" "}
+              </LinkSideBar>{" "}
+            </li>
             <li>
               {" "}
               <LinkSideBar link={"/data-supplier"}>

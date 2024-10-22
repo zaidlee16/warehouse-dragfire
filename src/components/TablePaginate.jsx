@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Table,
   TableHeader,
@@ -9,6 +9,7 @@ import {
   Pagination,
   getKeyValue,
   Tooltip,
+  Button,
 } from "@nextui-org/react";
 import { EyeIcon } from "./icons/EyeIcon";
 import { EditIcon } from "./icons/EditIcon";
@@ -18,6 +19,7 @@ import useTruncateText from "../hooks/useTruncateText";
 import { Link } from "react-router-dom";
 import { supabase } from "../utils/SupaClient";
 import Swal from "sweetalert2";
+import { useAuth } from "../auth/AuthProvider";
 
 const columns = [
   {
@@ -50,18 +52,27 @@ const columns = [
   },
 ];
 
-export default function TablePaginate({ allBarang }) {
+export default function TablePaginate({ allBarang, search }) {
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 5;
 
-  const pages = Math.ceil(allBarang.length / rowsPerPage);
+  const filteredBarang = useMemo(() => {
+    return allBarang.filter(
+      (barang) =>
+        barang.product_name.toLowerCase().includes(search.toLowerCase()) ||
+        barang.description.toLowerCase().includes(search.toLowerCase()) ||
+        barang.type.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [allBarang, search]);
+
+  const pages = Math.ceil(filteredBarang.length / rowsPerPage);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return allBarang.slice(start, end);
-  }, [page, allBarang]);
+    return filteredBarang.slice(start, end);
+  }, [page, filteredBarang]);
 
   const { formatRupiah } = useFormatRupiah();
 
@@ -99,6 +110,8 @@ export default function TablePaginate({ allBarang }) {
     }
   };
 
+  const { user, role } = useAuth();
+
   return (
     <Table
       aria-label="Example table with client side pagination"
@@ -131,28 +144,38 @@ export default function TablePaginate({ allBarang }) {
               <TableCell key={columnKey}>
                 {columnKey === "action" ? (
                   <div className="relative flex items-center gap-3">
-                    <Link to={`/detail/${item.id}`}>
-                      <Tooltip content="Detail Product">
-                        <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                          <EyeIcon />
-                        </span>
-                      </Tooltip>
-                    </Link>
-                    <Link to={`/edit/${item.id}`}>
-                      <Tooltip content="Change Product">
-                        <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                          <EditIcon />
-                        </span>
-                      </Tooltip>
-                    </Link>
-                    <Tooltip color="danger" content="Delete Product">
-                      <span
-                        className="text-lg text-danger cursor-pointer active:opacity-50"
-                        onClick={() => deleteProductById(item.id)}
-                      >
-                        <DeleteIcon />
-                      </span>
-                    </Tooltip>
+                    {user && role === "admin" ? (
+                      <>
+                        <Link to={`/detail/${item.id}`}>
+                          <Tooltip content="Detail Product">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                              <EyeIcon />
+                            </span>
+                          </Tooltip>
+                        </Link>
+                        <Link to={`/edit/${item.id}`}>
+                          <Tooltip content="Change Product">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                              <EditIcon />
+                            </span>
+                          </Tooltip>
+                        </Link>
+                        <Tooltip color="danger" content="Delete Product">
+                          <span
+                            className="text-lg text-danger cursor-pointer active:opacity-50"
+                            onClick={() => deleteProductById(item.id)}
+                          >
+                            <DeleteIcon />
+                          </span>
+                        </Tooltip>
+                      </>
+                    ) : (
+                      <>
+                        <Link to={`/detail/${item.id}`}>
+                          <Button color="primary">Detail Product</Button>
+                        </Link>
+                      </>
+                    )}
                   </div>
                 ) : columnKey === "price" ? (
                   formatRupiah(getKeyValue(item, columnKey))

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../utils/SupaClient";
 import LoadingSkeleton from "../components/nextui/LoadingSkeleton";
 import Layout from "../components/Layout";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [barang, setBarang] = useState(0);
@@ -56,7 +57,7 @@ const Dashboard = () => {
       <section id="dashboard" className="p-4 md:p-10">
         <div className="bg-cyan-800 text-white rounded-lg h-48 md:h-48 p-6 md:p-10">
           <h2 className="text-2xl md:text-4xl font-semibold">
-            Welcome, Admin!
+            Welcome, {import.meta.env.VITE_NAMA_USER}!
           </h2>
           <p className="text-sm md:text-lg mt-2">
             Welcome to DragFire Warehouse, your ultimate destination for food,

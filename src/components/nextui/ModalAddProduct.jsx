@@ -14,6 +14,7 @@ import {
 } from "@nextui-org/react";
 import { supabase } from "../../utils/SupaClient";
 import Swal from "sweetalert2";
+import { form } from "framer-motion/client";
 
 export default function ModalAddProduct({ isOpen, onOpen, onOpenChange }) {
   const [formData, setFormData] = useState({
@@ -34,21 +35,61 @@ export default function ModalAddProduct({ isOpen, onOpen, onOpenChange }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { data } = await supabase.from("product").insert(formData).select();
+    // try {
+    //   const { data } = await supabase.from("product").insert(formData).select();
 
-      if (data) {
-        Swal.fire({
-          title: "Input Successful",
-          text: "Data is successfully input to the database",
-          icon: "success",
-        }).then(() => {
-          window.location.reload();
+    //   if (data) {
+    //     Swal.fire({
+    //       title: "Input Successful",
+    //       text: "Data is successfully input to the database",
+    //       icon: "success",
+    //     }).then(() => {
+    //       window.location.reload();
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    try {
+      const { data: uploadImage, error: uploadError } = await supabase.storage
+        .from("imageCatalog")
+        .upload(`img_product/${formData.img.name}`, formData.img, {
+          cacheControl: "3600",
+          upsert: true,
         });
+
+      if (uploadError) {
+        throw uploadError;
       }
-    } catch (error) {
-      console.log(error);
-    }
+
+      if (uploadImage) {
+        const imageUrl = supabase.storage
+          .from("imageCatalog")
+          .getPublicUrl(`img_product/${formData.img.name}`).data.publicUrl;
+
+        const updatedFormData = {
+          ...formData,
+          img: imageUrl,
+        };
+
+        const { data, error } = await supabase
+          .from("product")
+          .insert(updatedFormData)
+          .select();
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          Swal.fire({
+            title: "Input Successful",
+            text: "Data Successfully Input to Database",
+            icon: "success",
+          }).then(() => window.location.reload());
+        }
+      }
+    } catch (error) {}
   };
 
   const jenisBarang = [
@@ -70,7 +111,14 @@ export default function ModalAddProduct({ isOpen, onOpen, onOpenChange }) {
     border: "none",
     boxShadow: "none",
     outline: "none",
-    borderRadius: "0.375rem", // Sesuaikan dengan radius "sm"
+    borderRadius: "0.375rem",
+  };
+
+  const handleImage = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.files[0],
+    });
   };
 
   return (
@@ -134,12 +182,11 @@ export default function ModalAddProduct({ isOpen, onOpen, onOpenChange }) {
                 <label>
                   Image
                   <Input
-                    type="text"
+                    type="file"
                     required
                     name="img"
-                    style={inputStyle}
-                    value={formData.img}
-                    onChange={handleChange}
+                    onChange={handleImage}
+                    className=" w-full border-black p-2 rounded-md "
                   />
                 </label>
                 <label>

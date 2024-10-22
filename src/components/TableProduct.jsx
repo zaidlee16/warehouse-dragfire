@@ -12,6 +12,8 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import ModalAddProduct from "./nextui/ModalAddProduct";
+import { useAuth } from "../auth/AuthProvider";
+import SearchBar from "./SearchBar";
 
 const TableProduct = () => {
   const [allBarang, setAllBarang] = useState([]);
@@ -35,10 +37,18 @@ const TableProduct = () => {
     }
   };
 
+  const { user, role } = useAuth();
+
   useEffect(() => {
     getAllBarang();
     document.getElementById("title").innerHTML = "Table Product";
   }, []);
+
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
 
   const handleFilterChange = (key) => {
     setFilter(key);
@@ -83,7 +93,16 @@ const TableProduct = () => {
             </Dropdown>
           </div>
 
-          <TablePaginate allBarang={filteredBarang} />
+          <div className=" my-3 ">
+            <SearchBar handleSearch={handleSearch} />
+          </div>
+
+          <TablePaginate
+            allBarang={filteredBarang}
+            user={user}
+            role={role}
+            search={search}
+          />
         </section>
       )}
     </Layout>
