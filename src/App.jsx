@@ -10,6 +10,7 @@ import ChangeSupplier from "./pages/supplier/ChangeSupplier";
 import AllProducts from "./pages/AllProducts";
 import Login from "./auth/Login";
 import AuthAdmin from "./auth/AuthAdmin";
+import Profile from "./components/Profile";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/data-supplier" element={<DataSupplier />} />
           <Route path="/detail-supplier/:id" element={<DetailSupplier />} />
           <Route path="/detail/:id" element={<DetailProduct />} />
+          <Route path="/profile" element={<Profile />} />
 
           <Route element={<AuthAdmin />}>
             <Route path="/edit/:id" element={<ChangeProduct />} />
